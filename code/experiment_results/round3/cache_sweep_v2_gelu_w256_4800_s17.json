@@ -1,0 +1,137 @@
+{
+  "split": "validation",
+  "precision": "fp32",
+  "device": "cuda:0",
+  "base_checkpoint_sha256": "13f35330fc0494f3e436ebf68c012e375a9e74578a6eeb6b461fcd020629b982",
+  "student_cache_sha256": "eaacefb3e6cfeda796971f38352806f2eaa70ce2712d1d08884578af0e6e1f83",
+  "candidates": [
+    {
+      "mode": "bigram",
+      "strength": 0.3,
+      "bonus": 0,
+      "count_scale": 0,
+      "bpb": 1.5956808442205668,
+      "seconds": 4.309640199999194
+    },
+    {
+      "mode": "trigram",
+      "strength": 0.2,
+      "bonus": 0,
+      "count_scale": 0,
+      "bpb": 1.6048641158256218,
+      "seconds": 4.258941899999627
+    },
+    {
+      "mode": "trigram",
+      "strength": 0.4,
+      "bonus": 0,
+      "count_scale": 0,
+      "bpb": 1.604035331098685,
+      "seconds": 4.527121099999931
+    },
+    {
+      "mode": "trigram",
+      "strength": 0.6,
+      "bonus": 0,
+      "count_scale": 0,
+      "bpb": 1.606476339942789,
+      "seconds": 4.521777699999802
+    },
+    {
+      "mode": "variable",
+      "strength": 0.1,
+      "bonus": 2,
+      "count_scale": 0,
+      "bpb": 1.5960908559790938,
+      "seconds": 4.521263999999064
+    },
+    {
+      "mode": "variable",
+      "strength": 0.2,
+      "bonus": 2,
+      "count_scale": 0,
+      "bpb": 1.599632685172292,
+      "seconds": 4.5464898999998695
+    },
+    {
+      "mode": "variable",
+      "strength": 0.3,
+      "bonus": 2,
+      "count_scale": 0,
+      "bpb": 1.608963711711161,
+      "seconds": 4.507308600001124
+    },
+    {
+      "mode": "variable",
+      "strength": 0.1,
+      "bonus": 4,
+      "count_scale": 0,
+      "bpb": 1.5958423383903526,
+      "seconds": 4.517322899999272
+    },
+    {
+      "mode": "variable",
+      "strength": 0.2,
+      "bonus": 4,
+      "count_scale": 0,
+      "bpb": 1.5993348813927848,
+      "seconds": 4.518269700000019
+    },
+    {
+      "mode": "variable",
+      "strength": 0.3,
+      "bonus": 4,
+      "count_scale": 0,
+      "bpb": 1.608629692430577,
+      "seconds": 4.521372399998654
+    },
+    {
+      "mode": "variable",
+      "strength": 0.1,
+      "bonus": 8,
+      "count_scale": 0,
+      "bpb": 1.5956787242824748,
+      "seconds": 4.553002699998615
+    },
+    {
+      "mode": "variable",
+      "strength": 0.2,
+      "bonus": 8,
+      "count_scale": 0,
+      "bpb": 1.5991524088074769,
+      "seconds": 4.539203099999213
+    },
+    {
+      "mode": "variable",
+      "strength": 0.3,
+      "bonus": 8,
+      "count_scale": 0,
+      "bpb": 1.6084355328494897,
+      "seconds": 4.555446000000302
+    },
+    {
+      "mode": "bigram",
+      "strength": 0.45,
+      "bonus": 0,
+      "count_scale": 0.5,
+      "bpb": 1.5957241989791129,
+      "seconds": 4.503073300000324
+    },
+    {
+      "mode": "bigram",
+      "strength": 0.6,
+      "bonus": 0,
+      "count_scale": 1,
+      "bpb": 1.5959006384113914,
+      "seconds": 4.56774519999999
+    },
+    {
+      "mode": "bigram",
+      "strength": 0.9,
+      "bonus": 0,
+      "count_scale": 2,
+      "bpb": 1.5963674467882747,
+      "seconds": 4.511973300001046
+    }
+  ]
+}

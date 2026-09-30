@@ -1,0 +1,17 @@
+{
+  "checkpoint_sha256": "1bf6995bda3d2006485c87557d295086057a4e5d6af7a8dc53feb7b1ef94f070",
+  "baseline_cpu_test_seconds": 9.0172806,
+  "candidate_cpu_test_seconds": 36.48781820000113,
+  "test_time_ratio": 4.046432601864595,
+  "candidate_cpu_validation_idle_seconds": 33.1661955999989,
+  "baseline_cpu_validation_seconds": 7.9311351,
+  "validation_time_ratio": 4.181771610472113,
+  "peak_working_set_test_bytes": 1990000640,
+  "peak_working_set_test_gib": 1.85333251953125,
+  "peak_working_set_validation_idle_bytes": 1991147520,
+  "checkpoint_bytes": 30031481,
+  "checkpoint_mib": 28.640252113342285,
+  "cpu_validation_concurrent_training_seconds": 41.1097036,
+  "uncompressed_parameter_bytes": 29995008,
+  "uncompressed_parameter_mib": 28.60546875
+}

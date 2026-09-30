@@ -1,0 +1,16 @@
+{
+  "checkpoint_sha256": "08044b228f885d4a4013f24b493301bd2ef8c4780504397986a0a34fb05903fc",
+  "baseline_test_seconds_original": 9.0172806,
+  "candidate_test_seconds": 32.7788453999965,
+  "test_time_ratio_original_baseline": 3.635114271590539,
+  "baseline_validation_seconds_same_session": 7.2661717,
+  "candidate_validation_seconds_same_session": 28.889575300003344,
+  "validation_time_ratio_same_session": 3.9759004456230156,
+  "first_validation_timing_outlier_seconds": 53.2341031,
+  "peak_working_set_test_bytes": 1991602176,
+  "peak_working_set_test_gib": 1.8548240661621094,
+  "checkpoint_bytes": 30031481,
+  "checkpoint_mib": 28.640252113342285,
+  "uncompressed_parameter_bytes": 29995008,
+  "uncompressed_parameter_mib": 28.60546875
+}

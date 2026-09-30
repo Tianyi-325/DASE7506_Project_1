@@ -1,0 +1,26 @@
+{
+  "split": "validation",
+  "precision": "fp32",
+  "first_sha256": "d9851dd6b7d9a3836d594796397b445f2a2cc6171f98a2132bc29559a0f109f8",
+  "second_sha256": "af8c178f6fb580a8decafad4aee8f5612306f8284ef53b9281ab9e1d910ada78",
+  "candidates": [
+    {
+      "first_weight": 0.45,
+      "temperature": 1.075,
+      "bpb": 1.529475926002662,
+      "seconds": 2.4519463000033284
+    },
+    {
+      "first_weight": 0.55,
+      "temperature": 1.075,
+      "bpb": 1.5288638430062382,
+      "seconds": 1.8196165000117617
+    },
+    {
+      "first_weight": 0.65,
+      "temperature": 1.075,
+      "bpb": 1.5320465259424545,
+      "seconds": 1.8696311999956379
+    }
+  ]
+}

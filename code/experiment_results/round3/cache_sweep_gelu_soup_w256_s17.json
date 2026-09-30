@@ -1,0 +1,114 @@
+{
+  "split": "validation",
+  "precision": "fp32",
+  "device": "cuda:0",
+  "base_checkpoint_sha256": "cc1bdabb05ebf3fc3138790d6ac8ecce06b6843993f1eca1a97777564dff8622",
+  "student_cache_sha256": "eaacefb3e6cfeda796971f38352806f2eaa70ce2712d1d08884578af0e6e1f83",
+  "candidates": [
+    {
+      "mode": "none",
+      "strength": 0.0,
+      "tau": 0.0,
+      "bpb": 1.6219642199838362,
+      "seconds": 1.259867700000541
+    },
+    {
+      "mode": "unigram",
+      "strength": 0.05,
+      "tau": 0.0,
+      "bpb": 1.6215908342564453,
+      "seconds": 0.9826450000000477
+    },
+    {
+      "mode": "unigram",
+      "strength": 0.1,
+      "tau": 0.0,
+      "bpb": 1.6349278788207258,
+      "seconds": 0.993551400000797
+    },
+    {
+      "mode": "following",
+      "strength": 0.05,
+      "tau": 0.0,
+      "bpb": 1.5982155256440977,
+      "seconds": 1.0373033000014402
+    },
+    {
+      "mode": "following",
+      "strength": 0.1,
+      "tau": 0.0,
+      "bpb": 1.5961481264081363,
+      "seconds": 1.0593695000006846
+    },
+    {
+      "mode": "following",
+      "strength": 0.15,
+      "tau": 0.0,
+      "bpb": 1.597306535405764,
+      "seconds": 1.0586201999994955
+    },
+    {
+      "mode": "following",
+      "strength": 0.2,
+      "tau": 0.0,
+      "bpb": 1.6002789070930905,
+      "seconds": 1.064571499999147
+    },
+    {
+      "mode": "following",
+      "strength": 0.1,
+      "tau": 64.0,
+      "bpb": 1.596679381892531,
+      "seconds": 1.06210640000063
+    },
+    {
+      "mode": "bigram",
+      "strength": 0.1,
+      "tau": 0.0,
+      "bpb": 1.5983998906007777,
+      "seconds": 1.0705987000001187
+    },
+    {
+      "mode": "bigram",
+      "strength": 0.2,
+      "tau": 0.0,
+      "bpb": 1.59534549044626,
+      "seconds": 1.0715232000002288
+    },
+    {
+      "mode": "bigram",
+      "strength": 0.3,
+      "tau": 0.0,
+      "bpb": 1.5949020520605395,
+      "seconds": 1.074208500000168
+    },
+    {
+      "mode": "bigram",
+      "strength": 0.4,
+      "tau": 0.0,
+      "bpb": 1.5960420694506408,
+      "seconds": 1.070735600000262
+    },
+    {
+      "mode": "bigram",
+      "strength": 0.5,
+      "tau": 0.0,
+      "bpb": 1.5985666892304538,
+      "seconds": 1.0678525999992416
+    },
+    {
+      "mode": "bigram",
+      "strength": 0.2,
+      "tau": 64.0,
+      "bpb": 1.5954453194185023,
+      "seconds": 1.1099490999986301
+    },
+    {
+      "mode": "bigram",
+      "strength": 0.4,
+      "tau": 64.0,
+      "bpb": 1.5961650268603351,
+      "seconds": 1.1192338000000746
+    }
+  ]
+}

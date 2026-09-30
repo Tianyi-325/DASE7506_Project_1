@@ -1,0 +1,29 @@
+{
+  "purpose": "runtime screen only",
+  "device": "cpu",
+  "precision": "fp32",
+  "threads": 4,
+  "rows": [
+    {
+      "width": 352,
+      "parameters": 6777408,
+      "parameter_bytes": 27109632,
+      "validation_cpu_seconds": 42.99077739999484,
+      "random_weights_bpb_ignored": 3.644750882367483
+    },
+    {
+      "width": 384,
+      "parameters": 7983360,
+      "parameter_bytes": 31933440,
+      "validation_cpu_seconds": 51.42054310000094,
+      "random_weights_bpb_ignored": 3.64250687842241
+    },
+    {
+      "width": 416,
+      "parameters": 9287616,
+      "parameter_bytes": 37150464,
+      "validation_cpu_seconds": 58.70311770000262,
+      "random_weights_bpb_ignored": 3.6523951646778774
+    }
+  ]
+}

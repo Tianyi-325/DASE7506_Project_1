@@ -1,0 +1,11 @@
+{
+  "split": "test",
+  "checkpoint_sha256": "1dd6bcd6fe12700c092a10b47226d96d7ee4825a6534cf367d30fca28c1f3b93",
+  "baseline_cpu_test_seconds": 9.0172806,
+  "candidate_cpu_test_seconds": 37.4021421,
+  "time_ratio": 4.147829457586138,
+  "peak_working_set_bytes": 1998352384,
+  "peak_working_set_gib": 1.8611106872558594,
+  "checkpoint_bytes": 30102585,
+  "checkpoint_mib": 28.708062171936035
+}

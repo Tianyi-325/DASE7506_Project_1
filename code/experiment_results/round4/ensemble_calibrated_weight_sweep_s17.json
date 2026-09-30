@@ -1,0 +1,51 @@
+{
+  "split": "validation",
+  "precision": "fp32",
+  "ensemble_method": "logit",
+  "gelu_sha256": "13f35330fc0494f3e436ebf68c012e375a9e74578a6eeb6b461fcd020629b982",
+  "swiglu_sha256": "be326ee0634fe151516ebc8ff681bb2f6016757882d002723914926dff006646",
+  "candidates": [
+    {
+      "gelu_weight": 0.35,
+      "temperature": 1.1,
+      "bpb": 1.5596277096484608,
+      "seconds": 7.427338699999382
+    },
+    {
+      "gelu_weight": 0.4,
+      "temperature": 1.1,
+      "bpb": 1.5548939780357511,
+      "seconds": 7.1062089999995806
+    },
+    {
+      "gelu_weight": 0.45,
+      "temperature": 1.1,
+      "bpb": 1.5516165715671455,
+      "seconds": 7.133145300000251
+    },
+    {
+      "gelu_weight": 0.5,
+      "temperature": 1.1,
+      "bpb": 1.5497940361816946,
+      "seconds": 7.106266199998572
+    },
+    {
+      "gelu_weight": 0.55,
+      "temperature": 1.1,
+      "bpb": 1.549429021484035,
+      "seconds": 7.102986600000804
+    },
+    {
+      "gelu_weight": 0.6,
+      "temperature": 1.1,
+      "bpb": 1.5505282969150915,
+      "seconds": 7.124218599999949
+    },
+    {
+      "gelu_weight": 0.65,
+      "temperature": 1.1,
+      "bpb": 1.55310284135744,
+      "seconds": 7.391222500000367
+    }
+  ]
+}

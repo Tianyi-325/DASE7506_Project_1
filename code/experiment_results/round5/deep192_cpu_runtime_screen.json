@@ -1,0 +1,16 @@
+{
+  "purpose": "runtime screen with random weights only",
+  "implementation": "model",
+  "implementation_sha256": "6cce142a31d396f017319543f50d70f30fa6da740729af01c8baed13c6f671f9",
+  "config": {
+    "vocab": 2048,
+    "width": 192,
+    "heads": 4,
+    "depth": 8,
+    "context": 256
+  },
+  "parameters": 4001664,
+  "uncompressed_parameter_bytes": 16006656,
+  "validation_cpu_seconds": 37.00294280000526,
+  "random_weights_bpb_ignored": 3.6196493784546306
+}

@@ -1,0 +1,20 @@
+{
+  "purpose": "runtime screen with random weights only",
+  "implementation": "student_moe",
+  "implementation_sha256": "f7940a50dac882351ca49f0e19c1d5d3991c40d8675f77671191338b69d1cf55",
+  "config": {
+    "vocab": 2048,
+    "width": 256,
+    "heads": 4,
+    "depth": 4,
+    "context": 256,
+    "dropout_p": 0.1,
+    "experts": 4,
+    "expert_hidden": 512,
+    "shared_hidden": 256
+  },
+  "parameters": 6384144,
+  "uncompressed_parameter_bytes": 25536576,
+  "validation_cpu_seconds": 33.87366929999553,
+  "random_weights_bpb_ignored": 3.6332457280242645
+}

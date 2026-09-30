@@ -1,0 +1,17 @@
+{
+  "purpose": "runtime screen with random weights only",
+  "implementation": "student_wide_ffn",
+  "implementation_sha256": "40c2870f4ad7fc69c1a2c7c02190324827ac64dda39e5b746ee5aaa11241de20",
+  "config": {
+    "vocab": 2048,
+    "width": 256,
+    "heads": 4,
+    "depth": 4,
+    "context": 256,
+    "ffn_expansion": 8
+  },
+  "parameters": 5850624,
+  "uncompressed_parameter_bytes": 23402496,
+  "validation_cpu_seconds": 37.17830660000618,
+  "random_weights_bpb_ignored": 3.6283199029877604
+}
