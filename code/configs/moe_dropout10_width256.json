@@ -1,0 +1,11 @@
+{
+  "vocab": 2048,
+  "width": 256,
+  "heads": 4,
+  "depth": 4,
+  "context": 256,
+  "dropout_p": 0.1,
+  "experts": 4,
+  "expert_hidden": 512,
+  "shared_hidden": 256
+}
