@@ -1,0 +1,63 @@
+{
+  "split": "validation",
+  "precision": "fp32",
+  "ensemble_method": "logit",
+  "first_sha256": "1d65e82aef75faf7946921b11148c80dee1c2705ff2aadeb8952f5dd67281afd",
+  "second_sha256": "958f743efd79aeeab7c85fb172959abf19703514a3c93dad57d6d34fc2594fc4",
+  "candidates": [
+    {
+      "first_weight": 0.6,
+      "temperature": 1.09,
+      "bpb": 1.4729946154159164,
+      "seconds": 1.999795700001414
+    },
+    {
+      "first_weight": 0.6,
+      "temperature": 1.105,
+      "bpb": 1.473063665438647,
+      "seconds": 1.8124308999977075
+    },
+    {
+      "first_weight": 0.6,
+      "temperature": 1.12,
+      "bpb": 1.4734547211972222,
+      "seconds": 1.8824606999987736
+    },
+    {
+      "first_weight": 0.65,
+      "temperature": 1.09,
+      "bpb": 1.4716020824333444,
+      "seconds": 1.9247766999906162
+    },
+    {
+      "first_weight": 0.65,
+      "temperature": 1.105,
+      "bpb": 1.4715872303167674,
+      "seconds": 1.9369786999886855
+    },
+    {
+      "first_weight": 0.65,
+      "temperature": 1.12,
+      "bpb": 1.4718948950271866,
+      "seconds": 1.9372158999904059
+    },
+    {
+      "first_weight": 0.7,
+      "temperature": 1.09,
+      "bpb": 1.4715614500136878,
+      "seconds": 1.9385454000002937
+    },
+    {
+      "first_weight": 0.7,
+      "temperature": 1.105,
+      "bpb": 1.4714481279972282,
+      "seconds": 1.9381693999894196
+    },
+    {
+      "first_weight": 0.7,
+      "temperature": 1.12,
+      "bpb": 1.4716582752110348,
+      "seconds": 1.994450099999085
+    }
+  ]
+}
