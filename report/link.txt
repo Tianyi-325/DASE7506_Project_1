@@ -1,0 +1,3 @@
+https://github.com/Tianyi-325/DASE7506_Project_1/releases/download/mp1-final-v1/checkpoint.pt
+
+https://github.com/Tianyi-325/DASE7506_Project_1

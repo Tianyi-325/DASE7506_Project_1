@@ -1,0 +1,141 @@
+\documentclass[10pt,a4paper]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage[a4paper,margin=0.82in]{geometry}
+\usepackage{amsmath,booktabs,tabularx,microtype,xurl}
+\usepackage[colorlinks=true,urlcolor=blue,linkcolor=black,citecolor=blue]{hyperref}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.45em}
+\setlength{\textfloatsep}{10pt}
+\setlength{\floatsep}{8pt}
+\renewcommand{\arraystretch}{1.12}
+
+\title{DASE7506 Project 1 Report}
+\author{Gong Tianyi\\ 3036900919}
+\date{}
+
+\begin{document}
+\maketitle
+\vspace{-2em}
+
+\begin{abstract}
+In this project, I trained small causal language models from random initialization on the course-supplied WikiText-2 training split. The final predictor averages the logits of independently trained RoPE and GELU branches with equal weights and a validation-calibrated temperature. The RoPE branch also uses training-only dropout, coverage-based window sampling, and a warmup--stable--decay (WSD) learning-rate schedule. The frozen predictor obtains 1.498956 bits per byte (BPB) on the complete test split, compared with 2.101257 for the classroom baseline. Its CPU scoring time is 4.125 times the same-period baseline, with 1.858 GiB sampled peak memory and a 28.39 MiB checkpoint; all satisfy the project limits. Matched-target validation controls and branch ablations support the reported improvements while exposing the extra training and inference cost of the two-branch design.
+\end{abstract}
+
+\section{Introduction}
+The task is to improve a from-scratch language model under fixed data, tokenizer, evaluator, and inference-resource rules. The classroom baseline is a width-128 GPT with learned absolute positions and GELU feed-forward blocks. I increase the width to 256, train one branch with RoPE, dropout, more even training-window coverage, and a WSD schedule, then combine it with an independently trained width-256 GELU branch. Equal-weight logit fusion gives a simple final decision rule without a learned gate or checkpoint parameter averaging. The complete-test CPU FP32 BPB falls from 2.101257 to 1.498956. The predictor uses 4.125 times baseline CPU scoring time (limit 5 times), 1.858 GiB sampled peak working set (limit 4 GiB), and 28.39 MiB uncompressed inference assets (limit 64 MiB). The following sections describe the method, controlled ablations, costs, and limits of the evidence.
+
+\section{Method}
+\subsection{Two independently trained branches}
+Both branches are four-layer, four-head causal GPTs with width 256 and context length 256. The RoPE branch applies rotary position embeddings to attention queries and keys instead of using a learned absolute-position table~\cite{roformer}. It has 3,683,840 parameters. During training it uses dropout probability 0.1; dropout is disabled for evaluation. A coverage sampler reshuffles nonoverlapping 256-target training windows with a fresh random offset each pass, reducing short-term duplicate sampling relative to choosing starts with replacement. This changes neither the supplied text nor the evaluator. The learning-rate plan adapts the WSD idea~\cite{minicpm}: 100 warmup steps, a stable peak rate until 75\% of the planned updates, and a cosine decay to 10\% of the peak rate. Starting from random weights, seed 17 is trained for 16,000 updates with batch size 32, processing 131,072,000 next-token targets. I use the original 16,000-step weights, not a cross-step parameter average.
+
+The GELU branch retains learned absolute positions and GELU feed-forward blocks at width 256. It has 3,749,376 parameters. Seed 29 is trained independently from random weights for 4,800 updates with batch size 32, processing 39,321,600 targets. No external pretrained model or teacher is used. Together, the branches account for 170,393,600 processed training targets and 7,433,216 distinct inference parameters.
+
+\subsection{Equal-logit fusion}
+For a causal input prefix $x$, let $z_R(x)$ and $z_G(x)$ be the unnormalized next-token logits of the two branches. The final prediction is
+\begin{equation}
+ p(y\mid x)=\operatorname{softmax}\!\left(\frac{0.5z_R(x)+0.5z_G(x)}{1.105}\right)_y.
+\end{equation}
+This combines logits before one softmax rather than averaging normalized probabilities. Equal weights treat the branches symmetrically and require no fitted gate; temperature 1.105 was calibrated on validation. Evaluation windows start with fresh temporary state. Apart from that validation-selected temperature, no validation- or test-derived data asset, cached answer, retrieval data, or cross-window memory enters inference. RoPE changes positional inductive bias, dropout regularizes training, coverage sampling spreads training exposure, and WSD reserves a final learning-rate decay. Error complementarity between branches is a plausible explanation for the ensemble gain but has not been established by direct correlation analysis.
+
+\section{Evaluation Protocol}
+The benchmark uses the supplied WikiText-2 raw-text splits~\cite{wikitext}, a fixed BPE-2048 tokenizer, and independent causal windows with 256 scored targets. I use the course evaluator without modification. With summed natural-log next-token negative log-likelihood $\mathrm{NLL}$ and raw UTF-8 byte count $B$, the metric is
+\begin{equation}
+ \mathrm{BPB}=\frac{\mathrm{NLL}}{B\ln 2}.
+\end{equation}
+The complete validation split has 376,599 scored targets and 1,148,007 bytes; the complete test split has 428,405 scored targets and 1,292,013 bytes. I train only on the supplied training text, use validation for development, and score on CPU in FP32 with four threads. A processed training target counts every target used in an update, including repetitions: batch size 32 and 256 targets yield 8,192 processed targets per update. Training duration is unrestricted by the guide; training and search costs are disclosed in Section~\ref{sec:cost}.
+
+\section{Ablation Studies}
+\subsection{Matched-target mechanism controls}
+Table~\ref{tab:controls} compares one intervention at a time within each row. Each pair has the same updates, batch size, context length, and number of processed training targets; the seed is the same where applicable. These are local controls from different research stages, not one perfectly controlled chain from the classroom baseline to the final ensemble. The 1,200-step baseline and the final predictor have very different training budgets.
+
+\begin{table}[t]
+\centering\footnotesize\setlength{\tabcolsep}{3pt}
+\caption{Complete-validation BPB in matched-target comparisons; lower is better.}
+\label{tab:controls}
+\begin{tabularx}{\textwidth}{@{}lXXrr@{}}
+\toprule
+Intervention & Control & Alternative & Targets each & BPB: control $\to$ alternative \\
+\midrule
+Width & GELU width 128, 4,800 steps & GELU width 256, 4,800 steps & 39.32M & 1.75243 $\to$ 1.62358 \\
+Dropout & GELU-256, no dropout, 6k & GELU-256, dropout 0.1, 6k & 49.15M & 1.62411 $\to$ 1.59079 \\
+Positions & Absolute, dropout 0.1, 6k & RoPE, dropout 0.1, 6k & 49.15M & 1.59079 $\to$ 1.58141 \\
+Window sampling & RoPE, random starts, 6k & RoPE, coverage sampler, 6k & 49.15M & 1.58141 $\to$ 1.57062 \\
+LR schedule & RoPE/coverage, cosine, 12k & RoPE/coverage, WSD, 12k & 98.30M & 1.53668 $\to$ 1.51946 \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+Widening GELU from 128 to 256 lowers validation BPB by about 0.12885 at 4,800 updates, with greater parameter and inference cost. At 6,000 updates, dropout improves the matched GELU result by 0.03333 BPB, RoPE improves the dropout model by 0.00938, and coverage sampling improves the RoPE model by 0.01078. At 12,000 updates, WSD improves over a matched cosine endpoint by 0.01722. The WSD model was worse at several earlier checkpoints; this final-budget result does not show that WSD always converges faster. Most pairs use one seed, so these differences are observations, not estimates of mean effects across initializations.
+
+\subsection{Final-branch and temperature ablations}
+Table~\ref{tab:branches} evaluates the two frozen final branches and their combination on the full validation split. Both single branches use temperature 1.105, preventing a temperature difference from being mistaken for fusion. The equal-weight rows isolate temperature calibration for the same branches.
+
+\begin{table}[t]
+\centering\small
+\caption{Full-validation ablation of the selected predictor.}
+\label{tab:branches}
+\begin{tabularx}{0.88\textwidth}{@{}Xrr@{}}
+\toprule
+Predictor & Temperature & Validation BPB \\
+\midrule
+Raw 16k RoPE branch only & 1.105 & 1.500050 \\
+Ordinary GELU-29 branch only & 1.105 & 1.609304 \\
+Equal-logit fusion & 1.000 & 1.486495 \\
+Equal-logit fusion & 1.105 & \textbf{1.479705} \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+At temperature 1.105, equal fusion improves by 0.020346 BPB over RoPE alone and 0.129599 over GELU alone. Raising the equal ensemble's temperature from 1.0 to 1.105 improves BPB by 0.006790. These controls show that the frozen pair predicts better than either constituent on validation. They do not prove an ensemble gain at fixed total training or parameter count: the second branch adds 39,321,600 processed targets and 3,749,376 parameters. A matched-total-budget two-branch control remains untested.
+
+\section{Final Result, Resources, and Search Cost}\label{sec:cost}
+The selected bundle was copied to a frozen artifact directory and independently rescored from that copy. Its SHA-256 is
+\begin{center}
+\begingroup\small\ttfamily
+\detokenize{c162aa90c1e5cd445128a8b105d5346d8b3dc156917d1116b49920e7fe9a3074}
+\endgroup
+\end{center}
+
+\begin{table}[t]
+\centering\small
+\caption{Complete-test CPU FP32 result and same-period resource check.}
+\label{tab:resources}
+\begin{tabularx}{\textwidth}{@{}Xll@{}}
+\toprule
+Quantity & Classroom baseline & Selected equal-weight predictor \\
+\midrule
+Full-test BPB & 2.101257 & \textbf{1.498956} \\
+Scorer time & 9.193 s & 37.926 s \\
+CPU time relative to baseline & 1.000$\times$ & 4.125$\times$ (limit: 5$\times$) \\
+Sampled peak process working set & --- & 1.858 GiB (limit: 4 GiB) \\
+Uncompressed inference assets & --- & 28.39 MiB (limit: 64 MiB) \\
+Distinct model parameters & 1,088,256 & 7,433,216 \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+The selected score improves on baseline by 0.60230 BPB, or about 28.66\% relative to baseline BPB. One checkpoint contains both branches and needs no auxiliary inference asset; it is 29,769,336 bytes uncompressed. Peak memory is the Windows process working set sampled about every 100 ms; scorer time excludes training. Background load affects absolute time, so the candidate is compared with a baseline scored in the same period. Independent machines should recheck the ratio. There is asset and memory headroom, but less headroom under the CPU-time limit.
+
+Direct training of the selected parents took 2,233.74 measured GPU-process seconds (37.23 minutes), excluding preparation and validation. This is not the full search cost. The 27 nontrivial training metrics files preserved under \texttt{runs/} sum to approximately 17,950 GPU-process seconds (4.99 hours), covering baseline, matched controls, and rejected candidates. This excludes validation scoring, fusion grids, preparation, and human analysis, and is limited to runs with retained metrics files. Some tasks overlapped, so summed process time is not elapsed wall-clock time. Seeds, target counts, checkpoint ancestry, and results are in \texttt{RUN\_LOG.csv}, \texttt{runs/*/metrics.json}, and \texttt{experiment\_results/}. The repository README gives the parent training, packaging, and frozen-checkpoint evaluation commands.
+
+\section{Code and Checkpoint}
+The project code, reproduction instructions, experimental records, and report source are available at \url{https://github.com/Tianyi-325/DASE7506_Project_1}. The frozen checkpoint used for the reported score can be downloaded directly from \url{https://github.com/Tianyi-325/DASE7506_Project_1/releases/download/mp1-final-v1/checkpoint.pt}. Its SHA-256 is reported above.
+
+\section{Discussion and Limitations}
+The matched controls support measured benefits from greater width, dropout, RoPE, coverage sampling, and WSD in their respective settings. Equal-logit fusion and temperature calibration improve validation BPB, while two-branch inference approaches the CPU-time limit. These are mostly single-seed results. I have not established a fixed-total-budget ensemble benefit, multi-seed stability, direct error complementarity, or timing portability to another machine.
+
+The equal-weight variant was selected as the intended final method after test results were visible. Consequently, the reported test BPB measures the frozen checkpoint but is not an untouched holdout for final-method selection. This is a limitation relative to the guide's freeze-before-test rule.
+
+The selected method reaches 1.498956 complete-test BPB, substantially below baseline while meeting measured inference limits. Its equal-weight rule and absence of checkpoint averaging make the deployed predictor straightforward to specify and reproduce. Substantive AI assistance and reuse of course starter code are disclosed in the repository README.
+
+\begin{thebibliography}{9}
+\bibitem{roformer} J. Su et al., ``RoFormer: Enhanced Transformer with Rotary Position Embedding,'' arXiv:2104.09864. \url{https://arxiv.org/abs/2104.09864}.
+\bibitem{minicpm} S. Hu et al., ``MiniCPM: Unveiling the Potential of Small Language Models with Scalable Training Strategies,'' arXiv:2404.06395. \url{https://arxiv.org/abs/2404.06395}. Only the WSD idea is borrowed; the exact schedule is implemented in \texttt{train.py}.
+\bibitem{wikitext} S. Merity et al., ``Pointer Sentinel Mixture Models,'' arXiv:1609.07843. \url{https://arxiv.org/abs/1609.07843}.
+\bibitem{project} Course \texttt{GUIDE.md}; \texttt{code/README.md}; \texttt{code/RESEARCH\_ROUND\_*.md}; \texttt{code/RUN\_LOG.csv}; \texttt{code/experiment\_results/}; \texttt{final\_artifact/FREEZE\_MANIFEST.json}.
+\end{thebibliography}
+
+\end{document}
