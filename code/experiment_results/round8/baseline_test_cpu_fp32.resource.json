@@ -1,0 +1,8 @@
+{
+    "checkpoint":  "runs/baseline_cuda_fp32_s17/checkpoint.pt",
+    "split":  "test",
+    "bpb":  2.1012567154053494,
+    "scorer_seconds":  8.835922400001436,
+    "sampled_peak_working_set_gib":  1.8028488159179688,
+    "checkpoint_sha256":  "5b068312e225a4995d8c85bf83cf0fc2fca632984ed704cbff95a695050ae0e6"
+}

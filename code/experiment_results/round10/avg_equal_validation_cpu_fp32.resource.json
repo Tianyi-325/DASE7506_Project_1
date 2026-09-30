@@ -1,0 +1,8 @@
+{
+    "checkpoint":  "runs/rope_swa16_gelu29_w05_t1105_round10/checkpoint.pt",
+    "split":  "validation",
+    "bpb":  1.4801303701104496,
+    "scorer_seconds":  44.4542752999987,
+    "sampled_peak_working_set_gib":  1.8582839965820313,
+    "checkpoint_sha256":  "455225a65bd7e6c07d9056a1c61ba078907fef25a116e04519b786e81a37434d"
+}

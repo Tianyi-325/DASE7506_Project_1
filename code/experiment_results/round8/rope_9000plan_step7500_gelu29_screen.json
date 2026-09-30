@@ -1,0 +1,14 @@
+{
+  "split": "validation",
+  "precision": "fp32",
+  "first_sha256": "79ee1f4d38c01ba18ca091a33890568d4c3c20d61fe6b807c347d819852df0ff",
+  "second_sha256": "958f743efd79aeeab7c85fb172959abf19703514a3c93dad57d6d34fc2594fc4",
+  "candidates": [
+    {
+      "first_weight": 0.6,
+      "temperature": 1.075,
+      "bpb": 1.5031931919042816,
+      "seconds": 12.614052799995989
+    }
+  ]
+}
